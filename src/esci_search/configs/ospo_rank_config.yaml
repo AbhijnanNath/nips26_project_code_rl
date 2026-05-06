@@ -1,0 +1,51 @@
+# Model Parameters
+model_name_or_path: "Qwen/Qwen2.5-7B-Instruct"
+use_peft: true
+lora_r: 32
+lora_alpha: 16
+lora_dropout: 0.05
+load_in_4bit: true
+torch_dtype: "bfloat16"
+
+# Training Hyperparameters
+learning_rate: 5.0e-6
+lr_scheduler_type: "cosine"
+warmup_steps: 100
+weight_decay: 0.05
+optimizer_type: "paged_adamw_32bit"
+max_steps: 2000
+seed: 0
+
+# Batch & Distribution
+per_device_train_batch_size: 8
+per_device_eval_batch_size: 8
+gradient_accumulation_steps: 2
+gradient_checkpointing: true
+num_generations: 8  # MCMC samples for OSPO
+max_prompt_length: 256  
+max_completion_length: 356  
+
+# OSPO / Search Specific
+owen_max_width: 32
+owen_max_permutations: 64
+redistribution_mode: "rank_based"  
+clip_ospo_advantages: true
+faiss_topk: 1000
+reward_topk: 100
+
+# Data Paths
+dataset_path: "data/esci/rl_dataset"
+faiss_index_path: "data/esci/index/all-mpnet-base-v2_faiss.bin"
+asin_mapping_path: "data/esci/index/all-mpnet-base-v2_asin_mapping.json"
+metadata_path: "data/esci/metadata/item_catalog.jsonl"
+embedding_model: "sentence-transformers/all-mpnet-base-v2"
+
+# Logging & Eval
+output_dir: "./outputs/ospo_ablations_esci"
+logging_steps: 1
+save_steps: 500
+eval_steps: 200
+eval_strategy: "steps"
+report_to: "wandb"
+log_completions: true
+sanity_check: false
