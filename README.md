@@ -555,6 +555,23 @@ python score_search_only.py \
 
 ---
 
+## Reproducing the OSPO vs. SCAR Complexity Plot (Figure 9 in paper)
+ 
+### Requirements
+```bash
+pip install shap
+```
+
+### Run
+From the project root directory:
+```bash
+cd src/hnm_contextual_search
+python owen_computation_analysis.py
+```
+
+The script reads from `../../data/owen_computation_data/` and saves
+`complexity_shap_v4.pdf` and `complexity_shap_v4.png` to the same directory.
+
 ## Directory Navigation
 
 All commands assume you're in the appropriate subdirectory:
