@@ -1,10 +1,6 @@
 # Owen-Shapley Policy Optimization (OSPO)
 
-This repository implements **Owen-Shapley Policy Optimization (OSPO)** for training large language models on the Amazon ESCI (Shopping Queries) and H&M Fashion Recommendation dataset. OSPO addresses the credit assignment gap in reinforcement learning for search query generation by redistributing sequence-level rewards based on tokens' marginal contributions to retrieval outcomes.
-
-## Project Description/Abstract
-
-Large language models are increasingly trained via reinforcement learning for personalized recommendation tasks, but standard methods like GRPO rely on sparse, sequence-level rewards. These obscure which tokens actually contribute to high-quality outputs, creating a **credit assignment gap**. This gap is especially problematic when models must infer latent user intent from under-specified language without ground truth labels, which is a reasoning pattern rarely seen during pretraining but commonly required in deployment. We introduce **Owen-Shapley Policy Optimization (OSPO)**, a framework that redistributes sequence-level advantages based on tokens' *marginal* contributions to outcomes. OSPO transforms task feedback into potential-based reward shaping via Shapley-Owen attributions to assign segment-level credit while preserving the optimal policy—all without parametric value models. By forming coalitions of semantically coherent units (e.g., phrases describing product attributes or sentences capturing preferences), OSPO identifies which response parts drive performance. Experiments on Amazon ESCI and H&M Fashion datasets show consistent gains over baselines and notable test-time robustness to out-of-distribution retrievers unseen during training.
+This repository contains implementation code for the submission, "Owen-Shapley Policy Optimization: A Principled RL Algorithm for Generative Search LLMs". 
 
 ---
 
@@ -20,7 +16,7 @@ Large language models are increasingly trained via reinforcement learning for pe
 1. **Clone the repository:**
 ```bash
 git clone <repository-url>
-cd LLM-Seq-Shapley-Owen-PO
+cd repo_name
 ```
 
 2. **Install dependencies:**
@@ -437,13 +433,12 @@ accelerate launch src/esci_search/trainers/train_ospo.py \
 accelerate launch src/esci_search/trainers/train_grpo.py \
     --config src/esci_search/configs/grpo_config.yaml
 ```
-
-# GRPO-λ Baseline Configuration
-# Runs GRPO with eligibility trace credit assignment (Parthasarathi et al., 2025)
-# Usage: accelerate launch src/esci_search/trainers/train_ospo.py \
-#        --config src/esci_search/configs/grpo_lambda_config.yaml
-# Note: uses train_ospo.py (not train_grpo.py) since the GRPO-λ implementation
-# is integrated into the OSPO trainer via use_grpo_lambda=True flag.
+##### GRPO-λ Baseline
+```bash
+accelerate launch src/esci_search/trainers/train_ospo.py \
+    --config src/esci_search/configs/grpo_lambda_config.yaml
+```
+> **Note:** GRPO-λ uses `train_ospo.py` (not `train_grpo.py`) since the eligibility trace implementation is integrated into the OSPO trainer via `use_grpo_lambda: True` in the config.
 
 ### Checkpoint Structure
 
@@ -570,11 +565,6 @@ All commands assume you're in the appropriate subdirectory:
 
 ---
  
-
-## License
-
-CC-BY-NC-4.0 license
-
----
+ 
 
  
